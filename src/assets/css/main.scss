@@ -1,0 +1,49 @@
+@import './base.css';
+@import './theme/theme.css';
+
+html{
+  overflow-y: auto !important;
+}
+body{
+  background: linear-gradient($primary, $secondary);
+  min-height: 100vh;
+  overflow: auto;
+}
+
+@keyframes bodyBg {
+  from  {
+    background: $primary;
+
+  }
+  to {
+    background: $secondary;
+  }
+}
+#app {
+  max-width: 1280px;
+  margin: 0 auto;
+  padding: 2rem;
+  font-weight: normal;
+  display: flex;
+  align-content: center;
+  grid-template-columns: 1fr 1fr;
+  align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  flex: 1;
+}
+
+
+@media (hover: hover) {
+
+}
+
+@media (min-width: 1024px) {
+  body {
+    display: flex;
+    place-items: center;
+  }
+  #app {
+
+  }
+}

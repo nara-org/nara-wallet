@@ -1,0 +1,49 @@
+{
+  "name": "Nara",
+  "welcome": "Welcome to Nara Wallet",
+  "welcomeDec": "Connecting you to the decentralized web and Nara network.",
+  "welcomeDecList": {
+    "1": "Send, receive tokens and NFTs.",
+    "2": "Stake Nara to earn rewards. Help the Nara network remain decentralized.",
+    "3": "Explore apps on Nara blockchain.",
+    "4": "Quickly revoke access connection given to apps.",
+    "5": "Track your Nara network activity."
+  },
+  "advantage": "Advantage",
+  "recoveryPhrase": "Recovery Phrase",
+  "warning": "warning",
+  "started": "Get Started",
+  "newWallet": "New to Nara Wallet?",
+  "select": {
+    "createTitle": "Yes, let’s create one!",
+    "createDec": "This creates a new wallet and a 12-word recovery phrase.",
+    "createBtn": "Create a New Wallet",
+    "importTitle": "No, I already have one",
+    "importBtn": "Import an Existing Wallet",
+    "importDec": "Import your existing wallet by entering the 12-word recovery phrase."
+  },
+  "import": {
+    "title": "Import an Existing Wallet",
+    "error": "Recovery Passphrase is invalid",
+    "btn": "Next step",
+    "dec": "Enter your 12-word Recovery Phrase"
+  },
+  "create": {
+    "title": "Create Password for This Wallet",
+    "termsDec": "I read and agreed to the ",
+    "termsLink": "terms of Services",
+    "PW": "Password",
+    "createPW": "Create Password",
+    "confirmPW": "Confirm Password",
+    "dec": "Create a wallet to start a trip to Nara.",
+    "btn": "Create Wallet"
+  },
+  "backup": {
+    "title": "Wallet Created Successfully!",
+    "dec": "Your recovery phrase makes it easy to back up and restore your account.",
+    "warningDec": "Never disclose your secret recovery phrase. Anyone can take over your account with it.",
+    "saveDec": "I saved my recovery phrase.",
+    "btn": "Open Nara Wallet"
+  },
+  "air": ""
+}

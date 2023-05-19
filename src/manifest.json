@@ -1,0 +1,27 @@
+{
+  "name": "Nara wallet",
+  "description" : "Nara wallet",
+  "version": "0.0.1",
+  "manifest_version": 3,
+  "action": {
+    "default_title": "Nara wallet",
+    "default_popup": "../index.html",
+    "default_icon": "./assets/logo.png"
+  },
+  "homepage_url": "https://example.com",
+  "permissions": [
+    "storage"
+  ],
+  "background": {
+    "service_worker": "./background/background.ts",
+    "type": "module"
+  },
+  "icons": {
+    "16": "./assets/logo.png",
+    "48": "./assets/logo.png",
+    "128": "./assets/logo.png"
+  },
+  "content_scripts": [
+  ],
+  "web_accessible_resources": []
+}
