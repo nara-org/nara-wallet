@@ -26,7 +26,7 @@
                 </v-timeline>
             </v-card-text>
         </v-card>
-        <v-btn class="mt-3" block size="x-large" append-icon="mdi-tag-arrow-right">{{$t('started')}}</v-btn>
+        <v-btn class="mt-3" block size="x-large" to="/select" append-icon="mdi-tag-arrow-right">{{$t('started')}}</v-btn>
     </section>
 </template>
 

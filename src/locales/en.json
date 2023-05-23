@@ -10,6 +10,7 @@
     "5": "Track your Nara network activity."
   },
   "advantage": "Advantage",
+  "copy": "copy success",
   "recoveryPhrase": "Recovery Phrase",
   "warning": "warning",
   "started": "Get Started",
@@ -36,6 +37,7 @@
     "createPW": "Create Password",
     "confirmPW": "Confirm Password",
     "dec": "Create a wallet to start a trip to Nara.",
+    "sync": "Sync wallet to browser user(encrypted).",
     "btn": "Create Wallet"
   },
   "backup": {
@@ -44,6 +46,20 @@
     "warningDec": "Never disclose your secret recovery phrase. Anyone can take over your account with it.",
     "saveDec": "I saved my recovery phrase.",
     "btn": "Open Nara Wallet"
+  },
+  "rules": {
+    "password": "Must contain numbers uppercase letters lowercase letters, length 6-12.",
+    "confirmPW": "Passwords do not match.",
+    "save": "Confirm the mnemonic is saved",
+    "terms": "Agree to Nara wallet terms."
+  },
+
+  "$vuetify": {
+    "loading": "loading",
+    "input": {
+      "clear": "clear",
+      "appendAction": "append action"
+    }
   },
   "air": ""
 }
