@@ -44,8 +44,8 @@ export const useAccountStore = defineStore('account', () => {
     const validateDecryptString = ref<string>('Nara');
     const validateEncryptString = ref<string>('');
 
-    // const backupMnemonic= ref<string>("result afford fruit shoot program page unknown opinion very chuckle protect ready");
-    const backupMnemonic= ref<string>('');
+    const backupMnemonic= ref<string>("result afford fruit shoot program page unknown opinion very chuckle protect ready");
+    // const backupMnemonic= ref<string>('');
 
 
     const accounts = reactive(<WalletType>{

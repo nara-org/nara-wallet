@@ -4,6 +4,7 @@ import {useAccountStore} from "@/stores/account";
 import {onBeforeMount, onBeforeUnmount} from 'vue'
 import {useI18n} from "vue-i18n";
 import {useRouter} from "vue-router";
+
 const router = useRouter();
 const {t, locale} = useI18n();
 
@@ -18,25 +19,27 @@ const rules = {
 
 onBeforeMount(async () => {
 
-    if(accountStore.backupMnemonic === ""){
+    if (accountStore.backupMnemonic === "") {
         await router.push("/create");
     }
 });
 
-onBeforeUnmount( () => {
+onBeforeUnmount(() => {
 
 });
 
-function copy() {
-    let input: any = document.getElementById("backupMnemonic");
-    input.select(); // 选中文本
-    document.execCommand("copy"); //
+function copy(status:boolean) {
+    if(status){
+        dialog.value = true;
+    }else{
+        console.log('copy error');
+    }
 }
 
-async function submit(event:any) {
+async function submit(event: any) {
     const results = await event;
     console.log(results);
-    if(results.valid){
+    if (results.valid) {
         accountStore.backupMnemonic = '';
         await router.push("/index");
     }
@@ -57,7 +60,6 @@ async function submit(event:any) {
             </v-card-text>
 
             <div class="skeleton-box">
-                <input :value="accountStore.backupMnemonic" id="backupMnemonic">
                 <v-skeleton-loader v-if="eyeMnemonic" height="160" elevation="10" color="primary"
                                    type="article"></v-skeleton-loader>
                 <div class="skeleton" v-else>
@@ -73,25 +75,25 @@ async function submit(event:any) {
                     :icon="eyeMnemonic ? 'mdi-eye' : 'mdi-eye-off'"
                     @click="eyeMnemonic = !eyeMnemonic"
                 ></v-btn>
-
-                <v-dialog v-model="dialog" width="auto" :scrim="false">
-                    <template v-slot:activator="{ props }">
+                <Copy :msg="accountStore.backupMnemonic" v-if="!eyeMnemonic" @copy="copy" class="backupMnemonicBtn">
+                    <template #btn>
                         <v-btn
-                            v-bind="props"
-                            v-if="!eyeMnemonic"
                             size="x-small"
-                            class="backupMnemonicBtn"
                             color="secondary"
                             icon="mdi-content-copy"
-                            @click="copy"
                         ></v-btn>
                     </template>
+                </Copy>
+                <v-snackbar location="center" content-class="text-center" min-width="180px" v-model="dialog" timeout="3000"  variant="elevated" color="green">
+                    {{ $t('copy') }}
+                </v-snackbar>
+<!--                <v-dialog v-model="dialog" width="auto" :scrim="false">
                     <v-card>
                         <div class="pa-3">
                             {{ $t('copy') }}
                         </div>
                     </v-card>
-                </v-dialog>
+                </v-dialog>-->
 
             </div>
 
@@ -154,15 +156,15 @@ async function submit(event:any) {
 
 .eye-mnemonic {
     position: absolute;
-    right: 10px;
-    bottom: 10px;
+    right: 6px;
+    bottom: 6px;
     z-index: 90;
 }
 
 .backupMnemonicBtn {
     position: absolute;
-    left: 10px;
-    bottom: 10px;
+    left: 6px;
+    bottom: 6px;
     z-index: 91;
 }
 

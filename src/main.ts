@@ -19,11 +19,18 @@ import './assets/css/main.scss'
 //     }
 // }
 
+import logoSecondary from './assets/logo-secondary.png';
+import logoWhite from './assets/logo-white.png';
+import Copy from "@/components/Copy.vue";
+import CoinList from "@/components/CoinList.vue";
+import CoinListDialog from "@/components/CoinListDialog.vue";
+
 
 const app = createApp(App)
 
-import logoSecondary from './assets/logo-secondary.png';
-import logoWhite from './assets/logo-white.png';
+app.component('Copy', Copy)
+app.component('CoinList', CoinList)
+app.component('CoinListDialog', CoinListDialog)
 
 app.use(createPinia())
 app.use(router)

@@ -1,10 +1,14 @@
 <script setup lang="ts">
-import {RouterView } from 'vue-router'
-import HelloWorld from './components/HelloWorld.vue'
+import {RouterView} from 'vue-router'
 </script>
 
 <template>
-  <RouterView />
+    <v-layout class="main-box scroll-box">
+        <RouterView name="Header"></RouterView>
+        <RouterView />
+        <RouterView name="Nav"></RouterView>
+    </v-layout>
+
 </template>
 
 <style scoped>

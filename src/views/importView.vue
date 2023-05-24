@@ -142,31 +142,33 @@
             </li>
         </ul>
 
-        <v-btn class="mt-3" block size="x-large" append-icon="mdi-step-forward">{{$t('import.btn')}}</v-btn>
+        <v-btn class="mt-3" block size="x-large" append-icon="mdi-step-forward">{{ $t('import.btn') }}</v-btn>
     </section>
 </template>
-
 <style scoped lang="scss">
 .import {
     min-width: 600px;
     display: block;
 }
-.import-list{
+
+.import-list {
     display: grid;
     width: 100%;
     padding: 1rem;
     grid-gap: 1rem;
     grid-template-columns: 30% 30% 30%;
-    li{
+
+    li {
     }
 }
+
 @media (max-width: 960px) {
     .import {
         width: 360px;
         min-width: auto;
         min-height: 50vh;
     }
-    .import-list{
+    .import-list {
         grid-template-columns: 50% 50%;
     }
 }

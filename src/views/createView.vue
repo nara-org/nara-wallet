@@ -3,10 +3,10 @@ import {ref} from 'vue'
 import {useI18n} from 'vue-i18n'
 import {useAccountStore} from "@/stores/account";
 import {useRouter} from "vue-router";
+
 const router = useRouter();
 const {t, locale} = useI18n();
 const accountStore = useAccountStore();
-
 
 
 const password = ref("");
@@ -24,10 +24,10 @@ const rules = {
     terms: (value: boolean) => value || t('rules.terms'),
 }
 
-async function submit(event:any) {
+async function submit(event: any) {
     const results = await event;
     console.log(results);
-    if(results.valid){
+    if (results.valid) {
         await accountStore.initState();
         await accountStore.createAccount(password.value);
         await router.push("/backup");
@@ -75,18 +75,17 @@ async function submit(event:any) {
                     <a href="#" class="pl-1">{{ $t('create.termsLink') }}</a>
                 </template>
                 <template v-slot:message>
-                    <p class="pl-10" v-show="!terms">{{rules.terms(terms)}}</p>
+                    <p class="pl-10" v-show="!terms">{{ rules.terms(terms) }}</p>
                 </template>
             </v-checkbox>
 
-            <v-btn class="mt-3" type="submit" block size="x-large"  append-icon="mdi-tag-arrow-right">{{
+            <v-btn class="mt-3" type="submit" block size="x-large" append-icon="mdi-tag-arrow-right">{{
                     $t('create.btn')
                 }}
             </v-btn>
         </v-form>
     </section>
 </template>
-
 <style scoped lang="scss">
 .create {
     min-width: $mainBlockMinWidth;
