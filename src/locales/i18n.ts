@@ -16,7 +16,6 @@ const i18n = createI18n({
     fallbackLocale: 'en',
     messages
 })
-
 export {i18n};
 
 

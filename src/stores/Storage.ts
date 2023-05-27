@@ -21,7 +21,12 @@ class StorageAccount {
     }
 
     public async getStateData() {
-        let stateData = <any>{};
+        let stateData = <{
+            "nara" : string | object,
+            "walletType" : string,
+            "validateEncryptString" : string,
+            "sync" : boolean,
+        }>{};
         try {
             let result = await chrome.storage[this.storageType].get(this.walletData);
             stateData = result;

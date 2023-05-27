@@ -5,7 +5,8 @@ import vueJsx from '@vitejs/plugin-vue-jsx'
 
 import {NodeModulesPolyfillPlugin} from '@esbuild-plugins/node-modules-polyfill'
 import {NodeGlobalsPolyfillPlugin} from '@esbuild-plugins/node-globals-polyfill'
-import rollupNodePolyFill from 'rollup-plugin-polyfill-node'
+// import rollupNodePolyFill from 'rollup-plugin-polyfill-node'
+import rollupNodePolyFill from 'rollup-plugin-node-polyfills'
 
 import crx from 'vite-plugin-crx-mv3'
 import wasm from 'vite-plugin-wasm';
@@ -28,8 +29,8 @@ export default defineConfig((mode) => {
             target: 'esnext',
             rollupOptions: {
                 plugins: [
-                    rollupNodePolyFill(),
-                    NodeModulesPolyfillPlugin()
+                    rollupNodePolyFill({ crypto: true }),
+                    // NodeModulesPolyfillPlugin()
                 ]
             }
         },
@@ -44,7 +45,7 @@ export default defineConfig((mode) => {
                         buffer: true,
                         process: true,
                     }),
-                    NodeModulesPolyfillPlugin()
+                    // NodeModulesPolyfillPlugin(),
                 ]
             }
         },
@@ -59,11 +60,6 @@ export default defineConfig((mode) => {
                 // runtimeOnly: false,
                 include: [path.resolve(__dirname, './src/locales/*.json')],
             }),
-            // legacy ( {
-            //     renderLegacyChunks: true,
-            //     polyfills: ['es.global-this'],
-            // } ),
-            // inject({ Buffer: 'buffer' })
         ],
         css: {
             preprocessorOptions: {
@@ -74,7 +70,13 @@ export default defineConfig((mode) => {
         },
         resolve: {
             alias: {
-                '@': fileURLToPath(new URL('./src', import.meta.url))
+                '@': fileURLToPath(new URL('./src', import.meta.url)),
+                // 'crypto' : 'rollup-plugin-node-polyfills/polyfills/crypto-browserify.js',
+                stream: 'rollup-plugin-node-polyfills/polyfills/stream',
+                events: 'rollup-plugin-node-polyfills/polyfills/events',
+                assert: 'assert',
+                util: 'util',
+                crypto: "crypto-browserify",
             }
         }
     }

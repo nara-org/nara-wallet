@@ -1,5 +1,16 @@
 <script setup lang="ts">
-import {RouterView} from 'vue-router'
+import {onMounted, onBeforeMount} from "vue";
+import {useAccountStore} from "@/stores/account";
+const accountStore = useAccountStore();
+import {useClientStore} from "@/stores/client";
+
+const clientStore = useClientStore();
+
+onBeforeMount(async() => {
+    await accountStore.initState();
+    await clientStore.connect();
+})
+
 </script>
 
 <template>

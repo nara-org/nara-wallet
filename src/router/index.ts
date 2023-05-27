@@ -6,6 +6,9 @@ import importView from '../views/importView.vue'
 import createView from '../views/createView.vue'
 import backupView from '../views/backupView.vue'
 import sendView from '../views/sendView.vue'
+import detailsView from '../views/detailsView.vue'
+import historyView from '../views/historyView.vue'
+
 import Header from '../components/Header.vue'
 import Nav from '../components/Nav.vue'
 
@@ -14,16 +17,29 @@ const router = createRouter({
     history: createWebHashHistory(),
     routes: [
         {
-            path: '/',
+            path: "/",
             name: 'home',
-
-            // component: HomeView
-            component: sendView
-        },
-        {
-            path: "/index",
             components: {
                 default: HomeView,
+                Nav,
+                Header,
+
+            }
+        },
+        {
+            path: "/details/:hash",
+            name: 'details',
+            props: true,
+            components: {
+                default: detailsView,
+                Header,
+            }
+        },
+        {
+            path: "/history",
+            name: 'history',
+            components: {
+                default: historyView,
                 Header,
                 Nav,
             }

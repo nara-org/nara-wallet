@@ -1,5 +1,6 @@
 {
-  "name": "Nara Wallet",
+  "app": "Nara Wallet",
+  "name": "Nara",
   "welcome": "Welcome to Nara Wallet",
   "welcomeDec": "Connecting you to the decentralized web and Nara network.",
   "welcomeDecList": {
@@ -11,10 +12,36 @@
   },
   "advantage": "Advantage",
   "copy": "copy success",
+  "ok": "OK",
+  "Payment": "Payment",
+  "Account": "Account",
+  "Destination": "Destination",
+  "delivered": "Delivered Amount",
+  "ledger": "Ledger",
+  "change": "Change",
+  "data": "Data",
+  "fee": "Fee",
+  "hash": "Hash",
+  "issuer": "Issuer",
+  "explorer": "VIEW ON EXPLORER",
+  "confirm": "confirm",
   "recoveryPhrase": "Recovery Phrase",
   "warning": "warning",
   "started": "Get Started",
   "newWallet": "New to Nara Wallet?",
+  "selectCoin": "Select Coins",
+  "send": {
+    "issuer": "Coin Issuer",
+    "btn": "send"
+  },
+  "activated": {
+    "title": "ACCOUNT NOT ACTIVATED",
+    "text1": "To create this account to the Nara ledger, you will have to make a first deposit of a minimum {0} Nara.",
+    "text2": "Your reserved Nara will not show up within your Nara Wallet balance as you cannot spend it."
+  },
+  "history": {
+    "empty": "No More History!"
+  },
   "select": {
     "createTitle": "Yes, let’s create one!",
     "createDec": "This creates a new wallet and a 12-word recovery phrase.",
@@ -51,6 +78,8 @@
     "password": "Must contain numbers uppercase letters lowercase letters, length 6-12.",
     "confirmPW": "Passwords do not match.",
     "save": "Confirm the mnemonic is saved",
+    "amount": "Illegal Amount.",
+    "validAddress": "Illegal Address.",
     "terms": "Agree to Nara wallet terms."
   },
 

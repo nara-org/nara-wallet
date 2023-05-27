@@ -26,7 +26,6 @@ const rules = {
 
 async function submit(event: any) {
     const results = await event;
-    console.log(results);
     if (results.valid) {
         await accountStore.initState();
         await accountStore.createAccount(password.value);

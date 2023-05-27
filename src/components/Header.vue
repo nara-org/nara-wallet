@@ -11,8 +11,8 @@
         <template v-slot:prepend>
             <v-img class="logo" :src="logoSecondary"></v-img>
         </template>
-        <v-app-bar-title class="ml-1">
-            {{ $t("name") }}
+        <v-app-bar-title class="ml-1 text-capitalize">
+            {{ $route.name === 'home' ? $t('app') : $t($route.name) }}
         </v-app-bar-title>
     </v-app-bar>
 
