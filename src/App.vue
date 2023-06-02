@@ -2,6 +2,8 @@
 import {ref, onMounted, onBeforeMount} from "vue";
 import {useAccountStore} from "@/stores/account";
 
+// import {onBeforeRouteUpdate} from "vue-router";
+
 const accountStore = useAccountStore();
 import {useClientStore} from "@/stores/client";
 import Menu from "@/components/Menu.vue";
@@ -10,9 +12,18 @@ const clientStore = useClientStore();
 
 onBeforeMount(async () => {
     await accountStore.initState();
-    await clientStore.connect();
+    if (accountStore.address) {
+        await clientStore.connect();
+    }
 })
-const open = ref(['Users']);
+//
+// onBeforeRouteUpdate(async () => {
+//     if (accountStore.address && !clientStore.isConnected) {
+//         await clientStore.connect();
+//     }
+// })
+
+
 </script>
 
 <template>

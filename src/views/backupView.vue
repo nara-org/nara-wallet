@@ -40,7 +40,7 @@ async function submit(event: any) {
     const results = await event;
     if (results.valid) {
         accountStore.backupMnemonic = '';
-        await router.push("/index");
+        await router.push("/");
     }
 }
 

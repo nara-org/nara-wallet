@@ -7,18 +7,20 @@ chrome.runtime.onInstalled.addListener(() => {
     console.log("onInstalled");
 });
 
-chrome.action.onClicked.addListener((tab) => {
+chrome.action.onClicked.addListener((tab:any) => {
     console.log("action.onClicked");
-    chrome.storage.local.get(["account"]).then((result) => {
+    chrome.storage.local.get(["nara"]).then((result:any) => {
         console.log(result);
-        if(result.account){
-
+        if(result.nara){
+            chrome.action.setPopup({
+                popup: 'index.html',
+            });
         }else {
             chrome.tabs.create({
-                url: "index.html"
+                url: "index.html#/welcome"
             })
         }
-    }).catch(err => {
+    }).catch((err:any) => {
         console.log(err);
     });
 });

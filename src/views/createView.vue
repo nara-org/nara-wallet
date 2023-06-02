@@ -67,8 +67,7 @@ async function submit(event: any) {
 
             <v-checkbox v-model="terms" :rules="[rules.terms]" class="terms-checkbox mb-5" height="40px">
                 <template v-slot:label>
-                    {{ $t('create.termsDec') }}
-                    <a href="#" class="pl-1">{{ $t('create.termsLink') }}</a>
+                    <p>{{ $t('create.termsDec') }}<a href="#" class="pl-1">{{ $t('create.termsLink') }}</a></p>
                 </template>
                 <template v-slot:message>
                     <p class="pl-10" v-show="!terms">{{ rules.terms(terms) }}</p>

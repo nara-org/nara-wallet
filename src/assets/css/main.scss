@@ -115,12 +115,12 @@ body{
     place-items: center;
   }
   // expand box css
-  //.main-box{
-  //  width: 100%;
-  //  height: 100vh;
-  //  min-height: auto;
-  //  max-height: 100vh;
-  //  border-radius: 0px;
-  //  max-width: 100%;
-  //}
+  .main-box{
+    width: 100%;
+    height: 100vh;
+    min-height: auto;
+    max-height: 100vh;
+    border-radius: 0px;
+    max-width: 100%;
+  }
 }
