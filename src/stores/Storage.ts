@@ -20,6 +20,14 @@ class StorageAccount {
         this.storageType = this.sync ? 'sync' : 'local';
     }
 
+    public async clear() {
+        try {
+            await chrome.storage[this.storageType].clear();
+        } catch (e) {
+            console.log(e);
+            localStorage.clear();
+        }
+    }
     public async getStateData() {
         let stateData = <{
             "nara" : string | object,

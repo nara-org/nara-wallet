@@ -13,6 +13,7 @@ const storageAccount = new StorageAccount();
 interface AddressType {
     address: string,
     seed: string,
+    name: string
 }
 
 interface AccountType {
@@ -45,11 +46,12 @@ export const useAccountStore = defineStore('account', () => {
     const validateDecryptString = ref<string>('Nara');
     const validateEncryptString = ref<string>('');
 
-    // const password = ref('Plm4542681');
-    const password = ref('');
+    const password = ref('Plm4542681');
+    // const password = ref('');
 
-    // const backupMnemonic = ref<string>("result afford fruit shoot program page unknown opinion very chuckle protect ready");
-    const backupMnemonic= ref<string>('');
+    const backupMnemonic = ref<string>("result afford fruit shoot program page unknown opinion very chuckle protect ready");
+    // const backupMnemonic= ref<string>('');
+
 
 
     const accounts = reactive(<WalletType>{
@@ -83,13 +85,44 @@ export const useAccountStore = defineStore('account', () => {
         }
     });
 
+
+    async function setAddress (val:string){
+        let setStatus = false;
+        accounts[walletType.value].address.find((element, index) => {
+            if(element.address === val){
+                accounts[walletType.value].current = index;
+                setStatus = true;
+            }
+        })
+        if(setStatus){
+            await storageAccount.set({
+                nara: JSON.stringify(accounts[walletType.value]),
+            });
+        }
+    }
+
     const addressSeed = computed(async () => {
         // return 'sEd76GkKkh6hmW4y8kXEdfdh6Ep1xEC';
         let current = accounts[walletType.value].current || 0;
         let seed = accounts[walletType.value].address[current].seed || '';
         seed = await decrypt(seed, password.value);
-        console.log(seed);
+        // console.log(seed);
         return seed;
+    });
+
+    const addressName = computed(() => {
+        let current = accounts[walletType.value].current || 0;
+        let name = 'Wallet' + (current + 1);
+        if(accounts[walletType.value].address[current]){
+            return accounts[walletType.value].address[current].name || name;
+        }
+        return name;
+    })
+
+    const decryptMnemonic = computed(async () => {
+        let m = await decrypt(mnemonic.value, password.value);
+        backupMnemonic.value = m;
+        return m;
     });
 
     async function getWallet() {
@@ -98,7 +131,7 @@ export const useAccountStore = defineStore('account', () => {
         return wallet;
     }
 
-    const mnemonic = computed(() => {
+    const mnemonic = computed(():string => {
         return accounts[walletType.value].mnemonic || '';
     });
 
@@ -114,12 +147,13 @@ export const useAccountStore = defineStore('account', () => {
                 await fromSeed(seed, pw, true);
                 await save();
             } catch (e) {
+                accounts[walletType.value].index -= 1;
+                accounts[walletType.value].current = accounts[walletType.value].index;
                 console.log(e);
             }
         } else {
             throw new Error('validateDecrypt is false.');
         }
-
     }
 
     async function initState() {
@@ -184,6 +218,7 @@ export const useAccountStore = defineStore('account', () => {
         accounts[walletType.value].mnemonic = mnemonicNew;
         accounts[walletType.value].index = 0;
         // mnemonic.value = "result afford fruit shoot program page unknown opinion very chuckle protect ready";
+        // mnemonic.value = "weekend human space corn front sibling motor execute trophy text captain window";
 
         let seed = await fromMnemonic(mnemonicNew);
         accounts[walletType.value].mnemonic = await encrypt(accounts[walletType.value].mnemonic, pw);
@@ -214,6 +249,7 @@ export const useAccountStore = defineStore('account', () => {
         const address: AddressType = {
             address: wallet.address,
             seed,
+            name: 'Wallet' + (accounts[walletType.value].index + 1)
         };
         if (addState) {
             accounts[walletType.value].address.push(address);
@@ -222,6 +258,33 @@ export const useAccountStore = defineStore('account', () => {
         }
 
     }
+
+    async function modifyName (name:string, index:number){
+        accounts[walletType.value].address[index].name = name;
+        await storageAccount.set({
+            nara: JSON.stringify(accounts[walletType.value]),
+        });
+    }
+
+    async function delWallet (){
+        try{
+            await storageAccount.clear();
+            accounts[walletType.value] =<AccountType>{
+                mnemonic: "",
+                index: 0,
+                current: 0,
+                num: 0,
+                mnemonicState: false,
+                importType: 'mnemonic',
+                address: <AddressType[]>[]
+            };
+            password.value = '';
+            backupMnemonic.value = '';
+        }catch (e) {
+            console.log(e);
+        }
+    }
+
 
     async function save() {
         storageAccount.syncChange(sync.value);
@@ -262,14 +325,19 @@ export const useAccountStore = defineStore('account', () => {
         backupMnemonic,
         address,
         addressSeed,
+        decryptMnemonic,
+        setAddress,
         getWallet,
         mnemonic,
+        addressName,
+        delWallet,
         validateDecrypt,
         importSeed,
         addAddress,
         initState,
         importMnemonic,
         createAccount,
+        modifyName,
         encrypt,
         decrypt
     }

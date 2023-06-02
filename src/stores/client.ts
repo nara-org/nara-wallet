@@ -4,18 +4,19 @@ import {Wallet, Client} from 'xrpl'
 import {xrpToDrops, dropsToXrp, isValidAddress, BigNumber} from '../public/walletCommon'
 import {useAccountStore} from "@/stores/account";
 
-import type {LedgerStream, Transaction, Amount, AccountTxRequest, AccountTxResponse, TxResponse, AccountTransaction, TxResult} from '../public/typeCommon'
+import type {
+    LedgerStream,
+    Transaction,
+    Amount,
+    AccountTxRequest,
+    AccountTxResponse,
+    TxResponse,
+    AccountTransaction,
+    IssuedCurrencyAmount,
+    TrustSet,
+    TxResult
+} from '../public/typeCommon'
 
-// import type {LedgerStream} from "xrpl/dist/npm/models/methods/subscribe";
-// import type {Transaction} from "xrpl/dist/npm/models/transactions/transaction"
-// import type {Amount} from "xrpl/dist/npm//models/common";
-// import type {AccountTxRequest, AccountTxResponse, TxResponse} from "xrpl/dist/npm/models/methods";
-
-
-
-// console.log(xrpToDrops(10));
-
-// console.log(dropsToXrp(11));
 
 interface CurrencyValue {
     value: string;
@@ -73,6 +74,28 @@ export const useClientStore = defineStore('client', () => {
         console.log('manifestReceived', data);
     })
 
+    async function trustSet(tx:IssuedCurrencyAmount) {
+
+        let transaction = <TrustSet>{
+            TransactionType: 'TrustSet',
+            Account:  accountStore.address,
+            LimitAmount: tx
+        };
+        let signed_tx_blob: string = '';
+        // console.log(transaction);
+        try {
+            transaction = await client.autofill(transaction);
+            console.log(transaction);
+            const wallet = await accountStore.getWallet();
+            const {tx_blob, hash} = wallet.sign(transaction);
+            signed_tx_blob = tx_blob;
+        }catch (e) {
+            console.log(e)
+        }
+        const result = await client.submit(signed_tx_blob);
+        console.log(result);
+    }
+
     const accountStore = useAccountStore();
 
     const historyData = ref(<AccountTransaction>[]);
@@ -90,10 +113,10 @@ export const useClientStore = defineStore('client', () => {
             account: accountStore.address,
             limit: 30,
         }
-        if(marker.value.seq){
+        if (marker.value.seq) {
             requestData.marker = marker.value;
-        }else{
-            if(historyData.value.length){
+        } else {
+            if (historyData.value.length) {
                 return 'empty';
             }
         }
@@ -101,32 +124,32 @@ export const useClientStore = defineStore('client', () => {
         try {
             const response = await client.request(requestData);
 
-            if(historyData.value.length){
+            if (historyData.value.length) {
                 historyData.value.push(...response.result.transactions);
-            }else{
+            } else {
                 historyData.value = response.result.transactions;
             }
-            if(historyData.value.length <= 0){
+            if (historyData.value.length <= 0) {
                 return 'empty';
             }
-            if(response.result.marker){
+            if (response.result.marker) {
                 marker.value = <any>response.result.marker;
-            }else{
+            } else {
                 marker.value = {};
             }
             // console.log(response);
             return 'ok';
-        }catch (e) {
+        } catch (e) {
             console.log(e);
             return 'error';
         }
     }
 
-    async function getTx(hash:string):Promise<TxResult> {
+    async function getTx(hash: string): Promise<TxResult> {
 
         let requestData = {
             command: 'tx',
-            transaction : hash
+            transaction: hash
         }
         const response = await client.request(requestData);
         console.log(response);
@@ -141,9 +164,9 @@ export const useClientStore = defineStore('client', () => {
         Amount: string | Amount,
         Destination: string,
     }) {
-        if(typeof tx.Amount === 'string'){
+        if (typeof tx.Amount === 'string') {
             tx.Amount = xrpToDrops(tx.Amount);
-        }else if(typeof tx.Amount === 'object'){
+        } else if (typeof tx.Amount === 'object') {
             tx.Amount.value = xrpToDrops(tx.Amount.value);
         }
         let transaction = <Transaction>{
@@ -188,9 +211,9 @@ export const useClientStore = defineStore('client', () => {
                 command: 'fee',
             }).then((feeResponse) => {
                 let base_fee = dropsToXrp(feeResponse.result.drops.base_fee || '12');
-                if(BigNumber(base_fee).gt(feeCushion.value) ){
+                if (BigNumber(base_fee).gt(feeCushion.value)) {
                     fee.value = base_fee;
-                }else{
+                } else {
                     fee.value = feeCushion.value;
                 }
                 // console.log(BigNumber(feeCushion.value).gt(base_fee));
@@ -206,30 +229,23 @@ export const useClientStore = defineStore('client', () => {
 
     async function getBalances(address?: string) {
         if (!isConnected.value) return await connect();
-        // console.log(isConnected.value);
         try {
-            // const response2 = await client.request({
-            //     command: 'account_lines',
-            //     account: accountStore.address,
-            // })
-            // console.log(response2);
             const response = await client.getBalances(address || accountStore.address);
             currency.value = response[0];
-            if(currencySend.value.currency === ''){
+            if (currencySend.value.currency === '') {
                 currencySend.value = response[0];
             }
             balances.value = response;
-            // console.log(balances.value);
             if (!balancesStatus.value) balancesStatus.value = true;
         } catch (e: any) {
             balances.value = [];
-            let v =  {
+            let v = {
                 value: '0',
                 currency: "",
             };
             currency.value = v;
             currencySend.value = v;
-            if((e.data && e.data?.error || "") == 'actNotFound'){
+            if ((e.data && e.data?.error || "") == 'actNotFound') {
                 if (!balancesStatus.value) balancesStatus.value = true;
             }
             console.log(e);
@@ -254,6 +270,7 @@ export const useClientStore = defineStore('client', () => {
         validAddress,
         getHistory,
         getTx,
+        trustSet,
         getBalances,
         payment,
         connect,

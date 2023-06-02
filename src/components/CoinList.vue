@@ -54,11 +54,11 @@ function clickItem(item) {
                     <i>{{item.currency.charAt(0)}}</i>
                     <div class="coin-name">
                         <p class="text-body-1">{{ item.currency }}</p>
-                        <small v-if="item.issuer">{{ item.issuer }}</small>
+                        <small class="text-body-2 text-grey" v-if="item.issuer">{{ item.issuer.substring(0, 4) }}...{{item.issuer.substring(item.issuer.length -4)}}</small>
                     </div>
                     <v-spacer></v-spacer>
                     <div class="coin-banner">
-                        <span class="text-h6">{{ item.value }}</span><small>{{ item.currency }}</small>
+                        <span class="text-h6 mr-1">{{ BigNumber(item.value).sd(6) }}</span><small>{{ item.currency }}</small>
                     </div>
                 </li>
             </ul>
@@ -90,7 +90,7 @@ function clickItem(item) {
             place-items: center;
             cursor: pointer;
             padding: 12px 20px;
-            margin-bottom: 8px;
+            margin-bottom: 16px;
             border-radius: 8px;
 
             i {
@@ -108,13 +108,13 @@ function clickItem(item) {
 
             .coin-name {
                 margin-left: 10px;
-
                 p {
                     line-height: 1;
                 }
 
                 small {
                     padding-left: 1px;
+                    line-height: 1;
                 }
             }
 

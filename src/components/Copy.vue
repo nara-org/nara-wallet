@@ -34,7 +34,7 @@ function copy() {
 </script>
 
 <template>
-    <div class="copy-box" @click="copy">
+    <div class="copy-box" @click.stop="copy">
         <input type="text" class="copy-input" :value="msg" :id="'copy' + num"/>
         <slot name="btn" :status="copyState"></slot>
         <slot :status="copyState"></slot>
@@ -44,6 +44,7 @@ function copy() {
 <style scoped>
 .copy-box {
     display: inline-grid;
+    cursor: pointer;
 }
 
 .copy-input {

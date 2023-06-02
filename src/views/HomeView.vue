@@ -70,16 +70,16 @@ async function clickCoin(item) {
                 </v-card-text>
             </v-card>
 
-            <div class="trust-lines-box">
+            <div class="trust-lines-box" @click="$router.push('/trust')">
                 <div class="trust-lines d-flex">
                     <v-icon icon="mdi-plus-circle-multiple-outline" class="mr-2"></v-icon>
-                    <h4 class="text-h6">Trust Coins</h4>
+                    <h4 class="text-h6">{{ $t('trustSet') }}</h4>
                     <v-spacer></v-spacer>
                     <v-icon icon="mdi-arrow-u-right-top" class="mr-2"></v-icon>
                 </div>
             </div>
 
-            <CoinList class="pa-0 mt-8" @coin="clickCoin"></CoinList>
+            <CoinList class="pa-0 mt-5" @coin="clickCoin"></CoinList>
         </v-container>
     </v-main>
 

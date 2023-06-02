@@ -8,6 +8,9 @@ import backupView from '../views/backupView.vue'
 import sendView from '../views/sendView.vue'
 import detailsView from '../views/detailsView.vue'
 import historyView from '../views/historyView.vue'
+import trustView from '../views/trustView.vue'
+import accountView from '../views/accountView.vue'
+import menuBackupView from '../views/menuBackupView.vue'
 
 import Header from '../components/Header.vue'
 import Nav from '../components/Nav.vue'
@@ -18,13 +21,39 @@ const router = createRouter({
     routes: [
         {
             path: "/",
-            name: 'home',
+            name: 'wallet',
             components: {
                 default: HomeView,
                 Nav,
                 Header,
 
             }
+        },
+        {
+            path: '/wallet',
+            redirect: '/',
+        },
+        {
+            path: "/account",
+            name: 'account',
+            components: {
+                default: accountView,
+                Header,
+            }
+        },
+        {
+            path: "/trust",
+            name: 'trust',
+            components: {
+                default: trustView,
+                Header,
+            }
+        },
+        {
+            path: "/menuBackup/:types",
+            name: 'menuBackup',
+            props: true,
+            component: menuBackupView
         },
         {
             path: "/details/:hash",

@@ -3,6 +3,7 @@ import {ref} from 'vue'
 import {useI18n} from 'vue-i18n'
 import {useAccountStore} from "@/stores/account";
 import {useRouter} from "vue-router";
+import rules from "@/public/rules";
 
 const router = useRouter();
 const {t, locale} = useI18n();
@@ -18,11 +19,7 @@ const terms = ref(false);
 
 console.log(t('name'));
 
-const rules = {
-    password: (value: string) => /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)[a-zA-Z\d]{6,12}$/.test(value) || t('rules.password'),
-    confirmPW: (value: string) => value == password.value || t('rules.confirmPW'),
-    terms: (value: boolean) => value || t('rules.terms'),
-}
+const confirmPW = (value: string) => value == password.value || t('rules.confirmPW');
 
 async function submit(event: any) {
     const results = await event;
@@ -56,7 +53,7 @@ async function submit(event: any) {
                 <p class="pa-2"></p>
                 <v-text-field
                     v-model="confirmPassword"
-                    :rules="[rules.confirmPW]"
+                    :rules="[confirmPW]"
                     :label="$t('create.confirmPW')"
                     persistent-hint
                     variant="solo"

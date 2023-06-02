@@ -3,6 +3,13 @@
   "name": "Nara",
   "welcome": "Welcome to Nara Wallet",
   "welcomeDec": "Connecting you to the decentralized web and Nara network.",
+  "menu": {
+    "new": "New Account",
+    "mnemonic": "Backup Mnemonic",
+    "del": "Remove Wallet",
+    "logout": "Logout Wallet",
+    "seed": "Backup Seed"
+  },
   "welcomeDecList": {
     "1": "Send, receive tokens and NFTs.",
     "2": "Stake Nara to earn rewards. Help the Nara network remain decentralized.",
@@ -12,7 +19,13 @@
   },
   "advantage": "Advantage",
   "copy": "copy success",
+  "seed": "Seed",
+  "modifyName": "Modify the name",
   "ok": "OK",
+  "back": "back",
+  "save": "save",
+  "cancel": "Cancel",
+  "trustSet": "Trust Set",
   "Payment": "Payment",
   "Account": "Account",
   "Destination": "Destination",
@@ -24,7 +37,7 @@
   "hash": "Hash",
   "issuer": "Issuer",
   "explorer": "VIEW ON EXPLORER",
-  "confirm": "confirm",
+  "confirm": "Confirm",
   "recoveryPhrase": "Recovery Phrase",
   "warning": "warning",
   "started": "Get Started",
@@ -34,6 +47,7 @@
     "issuer": "Coin Issuer",
     "btn": "send"
   },
+  "trustDes": "After you have authorized a trust line, you can never revoke that authorization.",
   "activated": {
     "title": "ACCOUNT NOT ACTIVATED",
     "text1": "To create this account to the Nara ledger, you will have to make a first deposit of a minimum {0} Nara.",
@@ -69,8 +83,8 @@
   },
   "backup": {
     "title": "Wallet Created Successfully!",
-    "dec": "Your recovery phrase makes it easy to back up and restore your account.",
-    "warningDec": "Never disclose your secret recovery phrase. Anyone can take over your account with it.",
+    "dec": "Your {0} makes it easy to back up and restore your account.",
+    "warningDec": "Never disclose your secret {0}. Anyone can take over your account with it.",
     "saveDec": "I saved my recovery phrase.",
     "btn": "Open Nara Wallet"
   },

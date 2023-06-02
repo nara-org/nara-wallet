@@ -1,9 +1,10 @@
 <script setup lang="ts">
-import {ref} from "vue";
+import {onMounted, ref} from "vue";
 import {useAccountStore} from "@/stores/account";
 import {onBeforeMount, onBeforeUnmount} from 'vue'
 import {useI18n} from "vue-i18n";
 import {useRouter} from "vue-router";
+let props = defineProps(['types']);
 
 const router = useRouter();
 const {t, locale} = useI18n();
@@ -11,18 +12,23 @@ const {t, locale} = useI18n();
 const accountStore = useAccountStore();
 const eyeMnemonic = ref(true);
 const dialog = ref(false);
-const saveMnemonic = ref(false);
+const seed = ref('');
 
-const rules = {
-    save: (value: boolean) => value || t('rules.save'),
-}
+let langString = '';
 
 onBeforeMount(async () => {
-
-    if (accountStore.backupMnemonic === "") {
-        await router.push("/create");
+    if(props.types === 'mnemonic'){
+        langString = 'recoveryPhrase';
+    }else{
+        langString = 'seed';
     }
 });
+onMounted(async () => {
+    if(props.types === 'seed'){
+        seed.value = await accountStore.addressSeed;
+    }
+
+})
 
 onBeforeUnmount(() => {
 
@@ -36,35 +42,35 @@ function copy(status:boolean) {
     }
 }
 
-async function submit(event: any) {
-    const results = await event;
-    if (results.valid) {
-        accountStore.backupMnemonic = '';
-        await router.push("/index");
-    }
+async function submit() {
+
 }
 
 </script>
 
 <template>
-    <section class="select rounded-0 pt-10 pb-5 pa-lg-8">
-        <v-img class="logo" :src="logoWhite"></v-img>
-        <h1 class="text-center text-h5 font-weight-bold on-secondary-text text-capitalize">{{ $t('backup.title') }}</h1>
-        <v-card class="mt-6 pa-5 pb-8 text-center">
+    <section class="select rounded-0 h-100">
+        <v-card class="pa-5 pb-8 text-center h-100">
             <v-card-title class="text-capitalize">
-                {{ $t('recoveryPhrase') }}
+                {{ $t(langString) }}
             </v-card-title>
             <v-card-text>
-                {{ $t('backup.dec', [$t('recoveryPhrase')]) }}
+                {{ $t('backup.dec', [$t(langString)]) }}
             </v-card-text>
 
             <div class="skeleton-box">
                 <v-skeleton-loader v-if="eyeMnemonic" height="160" elevation="10" color="primary"
                                    type="article"></v-skeleton-loader>
-                <div class="skeleton" v-else>
+                <div class="skeleton" v-if="!eyeMnemonic && types === 'mnemonic'">
                     <v-chip v-for="name in accountStore.backupMnemonic.split(' ')" class="ma-1" color="primary"
                             variant="outlined" rounded="10">
                         {{ name }}
+                    </v-chip>
+                </div>
+                <div class="skeleton" v-if="!eyeMnemonic && types === 'seed'">
+                    <v-chip class="ma-2 mt-4" color="primary"
+                            variant="outlined" rounded="10">
+                        {{ seed }}
                     </v-chip>
                 </div>
                 <v-btn
@@ -74,7 +80,7 @@ async function submit(event: any) {
                     :icon="eyeMnemonic ? 'mdi-eye' : 'mdi-eye-off'"
                     @click="eyeMnemonic = !eyeMnemonic"
                 ></v-btn>
-                <Copy :msg="accountStore.backupMnemonic" v-if="!eyeMnemonic" @copy="copy" class="backupMnemonicBtn">
+                <Copy :msg="types === 'mnemonic' ? accountStore.backupMnemonic : seed" v-if="!eyeMnemonic" @copy="copy" class="backupMnemonicBtn">
                     <template #btn>
                         <v-btn
                             size="x-small"
@@ -86,31 +92,18 @@ async function submit(event: any) {
                 <v-snackbar location="center" content-class="text-center" min-width="180px" v-model="dialog" timeout="3000"  variant="elevated" color="green">
                     {{ $t('copy') }}
                 </v-snackbar>
-<!--                <v-dialog v-model="dialog" width="auto" :scrim="false">
-                    <v-card>
-                        <div class="pa-3">
-                            {{ $t('copy') }}
-                        </div>
-                    </v-card>
-                </v-dialog>-->
-
             </div>
 
             <v-card-title class="text-capitalize font-weight-regular text-h6">
                 {{ $t('warning') }}
             </v-card-title>
             <v-card-text>
-                {{ $t('backup.warningDec', [$t('recoveryPhrase')]) }}
+                {{ $t('backup.warningDec', [$t(langString)]) }}
             </v-card-text>
-            <v-form @submit.prevent="submit">
-                <v-checkbox :rules="[rules.save]" class="save-checkbox-box mb-5 text-left" v-model="saveMnemonic"
-                            :label="$t('backup.saveDec')"></v-checkbox>
-                <v-btn class="mt-3 text-capitalize" type="submit" block size="large"
-                       append-icon="mdi-lock-open-check-outline">
-                    {{ $t('backup.btn') }}
-                </v-btn>
-            </v-form>
-
+            <v-btn class="mt-3" @click="$router.go(-1)" type="submit" block size="large"
+                   append-icon="mdi-arrow-u-left-top">
+                {{ $t('back') }}
+            </v-btn>
         </v-card>
     </section>
 </template>

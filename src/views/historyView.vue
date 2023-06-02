@@ -47,12 +47,11 @@ async function loadData({done}) {
         <div class="history-box">
             <v-infinite-scroll :onLoad="loadData" :item="clientStore.historyData" color="white">
                 <template v-for="(item, index) in clientStore.historyData" :key="item.tx.hash">
-                    <div class="history-item" v-if="item.meta.TransactionResult === 'tesSUCCESS'" @click="toDetails(item.tx.hash)">
+                    <div class="history-item" v-if="item.meta.TransactionResult === 'tesSUCCESS' && item?.tx.TransactionType == 'Payment'" @click="toDetails(item.tx.hash)">
 
                         <v-icon color="success mr-3"
                                 :icon="accountStore.address === item.tx.Account ? 'mdi-arrow-u-up-right' : 'mdi-arrow-u-down-right'"
                                 size="large"></v-icon>
-
                         <div class="history-text">
                             <h6>
                                 <small class="pr-3">{{ item.tx?.TransactionType }}</small>
