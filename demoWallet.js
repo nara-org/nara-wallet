@@ -5,6 +5,8 @@ const bip39 = require("bip39");
 const {BIP32Factory} = require("bip32");
 const ecc = require("tiny-secp256k1");
 const binary = require("ripple-binary-codec");
+const AuthClient = require("@walletconnect/auth-client");
+const SignClient = require("@walletconnect/sign-client");
 
 const bip32 = BIP32Factory(ecc);
 
@@ -84,3 +86,69 @@ async function demoSend() {
 }
 
 // demoSend();
+
+const metadata = {
+    name: 'my-auth-dapp',
+    description: 'A dapp using WalletConnect AuthClient',
+    url: 'my-auth-dapp.com',
+    icons: ['https://my-auth-dapp.com/icons/logo.png']
+}
+
+function testWallet (){
+    const authClient = await AuthClient.init({
+        projectId: import.meta.env.VITE_PROJECT_ID,
+        relayUrl: import.meta.env.VITE_RELAY_URL,
+        metadata: metadata
+    })
+    authClient.on('auth_response', ({ params }) => {
+        console.log('auth_response', params);
+    })
+
+    const signClient = await SignClient.init({
+        projectId: import.meta.env.VITE_PROJECT_ID,
+        // optional parameters
+        relayUrl: import.meta.env.VITE_RELAY_URL,
+        metadata: metadata,
+    });
+
+    signClient.on("session_event", ({ event }) => {
+        // Handle session events, such as "chainChanged", "accountsChanged", etc.
+        console.log('session_event', event);
+    });
+
+    signClient.on("session_update", ({ topic, params }) => {
+        const { namespaces } = params;
+        const _session = signClient.session.get(topic);
+        // Overwrite the `namespaces` of the existing session with the incoming one.
+        const updatedSession = { ..._session, namespaces };
+        // Integrate the updated session state into your dapp state.
+        console.log(updatedSession);
+    });
+
+    signClient.on("session_delete", () => {
+        // Session was deleted -> reset the dapp state, clean up from user session, etc.
+        console.log('session_delete');
+    });
+    console.log(await signClient.core.pairing.getPairings());
+    const { uri, approval } = await signClient.connect({
+        // Optionally: pass a known prior pairing (e.g. from `signClient.core.pairing.getPairings()`) to skip the `uri` step.
+        // pairingTopic: signClient.core.pairing.getPairings()[0].topic,
+        // Provide the namespaces and chains (e.g. `eip155` for EVM-based chains) we want to use in this session.
+        requiredNamespaces: {
+            eip155: {
+                methods: [
+                    "eth_sendTransaction",
+                    "eth_signTransaction",
+                    "eth_sign",
+                    "personal_sign",
+                    "eth_signTypedData",
+                ],
+                chains: ["eip155:1"],
+                events: ["chainChanged", "accountsChanged"],
+            },
+        },
+    });
+    console.log(uri);
+    const session = await approval();
+    console.log(session);
+}

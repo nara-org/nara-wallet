@@ -7,10 +7,11 @@ import type {TrustSet} from "xrpl/dist/npm/models/transactions/trustSet";
 
 type AccountTransaction = AccountTxResponse['result']['transactions'];
 type TxResult = TxResponse['result'];
-
+type Web3StatusType = 'init' | 'wait' | 'success' | 'error' | 'install';
 export type {
     LedgerStream,
     Transaction,
+    Web3StatusType,
     Amount,
     AccountTxRequest,
     TxResponse,

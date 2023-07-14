@@ -14,6 +14,8 @@
     "@mdi/font": "^7.2.96",
     "@types/cryptojs": "^3.1.30",
     "@vitejs/plugin-legacy": "^4.0.3",
+    "@walletconnect/core": "^2.7.7",
+    "@walletconnect/web3wallet": "^1.7.5",
     "bip32": "^4.0.0",
     "bip39": "^3.1.0",
     "buffer": "^6.0.3",
@@ -26,6 +28,7 @@
     "vue-i18n": "^9.2.2",
     "vue-router": "^4.2.0",
     "vuetify": "^3.2.5",
+    "web3": "^1.10.0",
     "xrpl": "^2.7.0"
   },
   "devDependencies": {

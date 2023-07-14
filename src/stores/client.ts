@@ -50,7 +50,9 @@ export const useClientStore = defineStore('client', () => {
     const fee_base = ref('0.00001');
     const reserve_base = ref('10');
 
-    const client = new Client('wss://xrplcluster.com', {});
+    const client = new Client('wss://xrplcluster.com', {
+        connectionTimeout: 10000
+    });
 
     client.on('connected', () => {
         isConnected.value = true;

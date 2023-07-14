@@ -53,7 +53,7 @@ export default defineConfig((mode) => {
             vue(),
             vueJsx(),
             crx({
-                manifest: './src/manifest.json'
+                manifest: './src/manifest.json',
             }),
             wasm(),
             VueI18nPlugin({

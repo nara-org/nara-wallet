@@ -11,6 +11,7 @@ import historyView from '../views/historyView.vue'
 import trustView from '../views/trustView.vue'
 import accountView from '../views/accountView.vue'
 import menuBackupView from '../views/menuBackupView.vue'
+import bridgeView from '../views/bridgeView.vue'
 
 import Header from '../components/Header.vue'
 import Nav from '../components/Nav.vue'
@@ -32,6 +33,14 @@ const router = createRouter({
         {
             path: '/wallet',
             redirect: '/',
+        },
+        {
+            path: "/bridge",
+            name: 'bridge',
+            components: {
+                default: bridgeView,
+                Header,
+            }
         },
         {
             path: "/account",

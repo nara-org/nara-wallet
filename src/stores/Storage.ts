@@ -49,6 +49,28 @@ class StorageAccount {
         return stateData;
     }
 
+    public async getWeb3() {
+        let web3Data:string | object = '{}';
+        if(typeof chrome === 'object' && chrome.storage){
+            let result = await chrome.storage[this.storageType].get(['web3']);
+            web3Data = result.web3 || '{}';
+        }else{
+            let value = localStorage.getItem('web3');
+            web3Data = value || '{}';
+        }
+        try {
+            web3Data = JSON.parse(<string>web3Data);
+        } catch (e) {
+           console.log(e);
+        }
+        return <{
+            balance: string,
+            chainId: number,
+            address: string,
+            web3Type: string,
+         }>web3Data;
+    }
+
     public async set(param: object) {
         let keys = Object.keys(param);
         let values = Object.values(param);
@@ -59,7 +81,6 @@ class StorageAccount {
                 (param as any)[keyName] = JSON.stringify(value);
             }
         });
-
         try {
             await chrome.storage[this.storageType].set(param);
         } catch (error) {
